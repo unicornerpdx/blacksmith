@@ -1,0 +1,15 @@
+<table class="table table-condensed">
+  <% AwsAccount.all(:order => [:name, :region]).each do |account| %>
+    <tr>
+      <td><%= account.name %></td>
+      <td><%= account.region %></td>
+      <td>
+        <% if account.pub_keys.length > 0 %>
+          <a href="/authorized-keys?account=<%= account.id %>"><%= account.pub_keys.length %> keys</a>
+        <% else %>
+          0 keys
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,85 @@
+<div class="row">
+
+<h2>Existing Keys</h2>
+<div class="col-sm-6">
+  <% if @user.pub_keys.length == 0 %>
+      <p>You have no keys on file. Add a key below.</p>
+  <% else %>
+    <table class="table table-bordered">
+    <% @user.pub_keys.each do |key| %>
+      <tr>
+        <td><%= key.aws_account.name %><br><%= key.aws_account.region %></td>
+        <td>
+          <textarea style="font-size: 10pt; font-family: courier new;" readonly="readonly" rows="3" class="form-control"><%= key.pubkey %></textarea>
+        </td>
+        <td>
+          <form action="/delete-key" method="POST">
+            <input type="hidden" name="id" value="<%= key.id %>">
+            <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+          </form>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  <% end %>
+</div>
+
+</div>
+
+
+<div class="row">
+
+<h2>Add New Key</h2>
+<form action="/add-key" method="POST" class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="account" class="col-sm-2 control-label">Account</label>
+    <div class="col-sm-4">
+      <select name="account" id="account" class="form-control">
+        <% AwsAccount.all(:order => [:name, :region]).each do |account| %>
+          <option value="<%= account.id %>" data-account-name="<%= account.name %>"><%= account.name %> : <%= account.region %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pubkey" class="col-sm-2 control-label">Public Key</label>
+    <div class="col-sm-4">
+      <textarea name="pubkey" rows="3" cols="50" class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-4">
+      <input type="submit" value="Submit" class="btn btn-primary">
+    </div>
+  </div>
+</form>
+
+</div>
+
+<p>Generate a unique public/private keypair for each AWS account.</p>
+<p>Name your key <code><span class="example-account">account</span>.aws.pem</code></p>
+
+<p><pre>
+# Generate a new public/private keypair. Make sure to set a passphrase.
+$ ssh-keygen -t rsa -C 'aparecki@<span class="example-account">account</span>'
+
+# Add the private key to your keychain to avoid typing the passphrase every time you use the key
+$ ssh-add ~/.ssh/<span class="example-account">account</span>.aws.pem
+
+# Copy the public key to your clipboard and paste it above
+$ pbcopy &lt; ~/.ssh/<span class="example-account">account</span>.aws.pem.pub
+</pre></p>
+
+<script>
+function updateExampleAccount(){
+  var el = $(this).children(":selected");
+  if(el.length == 0) el = $("#account").children("option")[0];
+  console.log($(el).data('account-name'));
+  $(".example-account").text($(el).data('account-name'));
+}
+
+$(function(){
+  updateExampleAccount();
+  $("#account").change(updateExampleAccount);
+});
+</script>

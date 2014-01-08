@@ -1,0 +1,8 @@
+development:
+  base: 'http://blacksmith.dev'
+  database_url: 'postgres://user@localhost/blacksmith'
+  github:
+    client_id: 
+    client_secret: 
+    orgs:
+      - your_org
