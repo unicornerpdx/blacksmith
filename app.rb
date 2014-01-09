@@ -33,7 +33,25 @@ class App < Sinatra::Base
 
   get '/ssh-config' do
     require_login
-    erb :ssh_config
+    if params[:job]
+      @job = ConfigJob.first :token => params[:job]
+      erb :ssh_config_status
+    else
+      erb :ssh_config
+    end
+  end
+
+  get '/job-status' do
+    require_login
+    if params[:job]
+      @job = ConfigJob.first :token => params[:job]
+      {
+        :status => @job.status,
+        :config => @job.config
+      }.to_json
+    else
+      {}.to_json
+    end
   end
 
   get '/authorized-keys' do
@@ -104,6 +122,21 @@ class App < Sinatra::Base
     else
       erb "<h1>Not Authorized</h1>"
     end
+  end
+
+  post '/generate-ssh-config' do
+    require_login
+
+    token = rand(36**12).to_s(36)
+
+    job = ConfigJob.create :token => token, :status => 'new', :user => @user, :aws_account => AwsAccount.get(params[:id])
+
+    Thread.new do
+      AwsJob.new.perform({
+        token: token
+      })
+    end
+    redirect "/ssh-config?job=#{token}"
   end
 
 end

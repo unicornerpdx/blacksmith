@@ -1,0 +1,20 @@
+<div class="col-sm-6 col-sm-offset-3">
+
+  <p>This will query the selected AWS account and give you text you can include in your <code>~/.ssh/config</code> file so that you can SSH into the servers using just the AWS machine name as a shortcut.</p>
+
+  <table class="table table-condensed">
+    <% AwsAccount.all(:order => [:name, :region]).each do |account| %>
+      <tr>
+        <td><%= account.name %></td>
+        <td><%= account.region %></td>
+        <td>
+          <form action="/generate-ssh-config" method="POST">
+            <input type="hidden" name="id" value="<%= account.id %>">
+            <input type="submit" value="Generate" class="btn btn-sm btn-primary">
+          </form>        
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>

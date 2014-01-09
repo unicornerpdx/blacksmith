@@ -2,6 +2,10 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.5)
+    aws-sdk (1.29.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     coderay (1.1.0)
     data_objects (0.10.13)
       addressable (~> 2.1)
@@ -34,9 +38,12 @@ GEM
       multi_json (>= 1.5)
     logger (1.2.8)
     method_source (0.8.2)
+    mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.2)
     multipart-post (1.2.0)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -75,11 +82,13 @@ GEM
       sinatra (>= 1.0.0)
     slop (3.4.7)
     tilt (1.4.1)
+    uuidtools (2.1.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk
   dm-aggregates
   dm-core
   dm-migrations

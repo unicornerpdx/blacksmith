@@ -7,6 +7,7 @@ gem 'json'
 gem 'httpclient'
 gem 'logger'
 gem 'rake'
+gem 'aws-sdk'
 
 gem 'puma'
 gem 'shotgun'

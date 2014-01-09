@@ -14,3 +14,13 @@ namespace :db do
     DataMapper.auto_upgrade!
   end
 end
+
+namespace :job do 
+  task :process, :token do |t, args|
+
+    AwsJob.new.perform({
+      token: args[:token]
+    })
+
+  end
+end

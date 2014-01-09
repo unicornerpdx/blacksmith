@@ -1,0 +1,35 @@
+<div class="row">
+
+<h4 id="job_status">Generating SSH Config...</h4>
+
+<div class="col-sm-10">
+  <div id="job_progress" class="progress progress-striped active" style="margin-bottom: 8px;">
+    <div class="progress-bar" role="progressbar" style="width: 0%;"></div>
+  </div>
+<textarea id="ssh_config" style="font-size: 8pt; font-family: courier new;" readonly="readonly" class="col-sm-12" rows="30"><%= @job.config %></textarea>
+
+</div>
+
+</div>
+<script>
+function checkStatus() {
+  $.get("/job-status?job=<%= params[:job] %>", function(response){
+    var data = JSON.parse(response);
+    if(data.status == 'complete') {
+      $("#job_status").text("Complete!");
+      $("#job_progress").removeClass('active progress-striped');
+      $("#job_progress .progress-bar").css('width','100%');
+    } else {
+      console.log(data);
+      $("#ssh_config").val(data.config);
+      $("#ssh_config").scrollTop($('#ssh_config')[0].scrollHeight);
+      $("#job_progress .progress-bar").css('width', data.status+'%');
+      setTimeout(checkStatus, 1000);
+    }
+  });
+}
+
+$(function(){
+  checkStatus();
+});
+</script>
