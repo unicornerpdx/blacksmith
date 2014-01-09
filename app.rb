@@ -137,7 +137,7 @@ class App < Sinatra::Base
 
     token = rand(36**12).to_s(36)
 
-    job = ConfigJob.create :token => token, :status => 'new', :user => @user, :aws_account => AwsAccount.get(params[:id])
+    job = ConfigJob.create :token => token, :status => 'new', :user => @user, :aws_region => AwsRegion.get(params[:id])
 
     Thread.new do
       AwsJob.new.perform({

@@ -19,8 +19,9 @@ function checkStatus() {
       $("#job_status").text("Complete!");
       $("#job_progress").removeClass('active progress-striped');
       $("#job_progress .progress-bar").css('width','100%');
+      $("#ssh_config").val(data.config);
+      $("#ssh_config").scrollTop($('#ssh_config')[0].scrollHeight);
     } else {
-      console.log(data);
       $("#ssh_config").val(data.config);
       $("#ssh_config").scrollTop($('#ssh_config')[0].scrollHeight);
       $("#job_progress .progress-bar").css('width', data.status+'%');

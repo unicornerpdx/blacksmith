@@ -3,7 +3,7 @@ class ConfigJob
   property :id, Serial
 
   belongs_to :user
-  belongs_to :aws_account
+  belongs_to :aws_region
 
   property :token, String, :length => 255
   property :config, Text

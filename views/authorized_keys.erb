@@ -1,12 +1,11 @@
 <div class="col-sm-6 col-sm-offset-3">
 
-  <p>Generate text for the <code>.ssh/authorized_keys</code> files of new EC2 servers.</p>
+  <p>Generate the <code>.ssh/authorized_keys</code> file for new EC2 servers.</p>
 
   <table class="table table-condensed">
-    <% AwsAccount.all(:order => [:name, :region]).each do |account| %>
+    <% AwsAccount.all(:order => [:name]).each do |account| %>
       <tr>
         <td><%= account.name %></td>
-        <td><%= account.region %></td>
         <td>
           <% if account.pub_keys.length > 0 %>
             <a href="/authorized-keys?account=<%= account.id %>"><%= account.pub_keys.length %> keys</a>

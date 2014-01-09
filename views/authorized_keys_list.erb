@@ -1,6 +1,6 @@
-<h3><%= @account.name %> : <%= @account.region %></h3>
+<h3><%= @account.name %></h3>
 
-<p>These are the SSH keys that have been submitted for this region. When creating new servers, you should include all of the below in the <code>.ssh/authorized_keys</code> file.</p>
+<p>These are the SSH keys that have been submitted for this account. When creating new servers, you should include all of the below in the <code>.ssh/authorized_keys</code> file.</p>
 
 <pre>
 <%= @account.pub_keys.map{ |key| "#{key.key_with_comment}"}.join("\n") %>

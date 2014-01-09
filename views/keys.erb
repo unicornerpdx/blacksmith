@@ -8,7 +8,7 @@
     <table class="table table-bordered">
     <% @user.pub_keys.each do |key| %>
       <tr>
-        <td><%= key.aws_account.name %><br><%= key.aws_account.region %></td>
+        <td><%= key.aws_account.name %></td>
         <td>
           <textarea style="font-size: 10pt; font-family: courier new;" readonly="readonly" rows="3" class="form-control"><%= key.pubkey %></textarea>
         </td>
@@ -35,8 +35,8 @@
     <label for="account" class="col-sm-2 control-label">Account</label>
     <div class="col-sm-4">
       <select name="account" id="account" class="form-control">
-        <% AwsAccount.all(:order => [:name, :region]).each do |account| %>
-          <option value="<%= account.id %>" data-account-name="<%= account.name %>"><%= account.name %> : <%= account.region %></option>
+        <% AwsAccount.all(:order => [:name]).each do |account| %>
+          <option value="<%= account.id %>" data-account-name="<%= account.name %>"><%= account.name %></option>
         <% end %>
       </select>
     </div>
