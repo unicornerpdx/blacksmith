@@ -28,7 +28,7 @@ class AwsJob
           ssh_config << "Host #{instance_name}\n"
           ssh_config << "  HostName #{instance.ip_address}\n"
           ssh_config << "  User #{instance_user}\n"
-          ssh_config << "  IdentityFile ~/.ssh/#{job.aws_account.name}.aws.pem\n"
+          ssh_config << "  IdentityFile ~/.ssh/#{job.aws_region.aws_account.name}.aws.pem\n"
           ssh_config << "\n"
         end
 
