@@ -1,0 +1,12 @@
+<div class="col-sm-6 col-sm-offset-3">
+
+<h3>We were unable to authenticate you</h3>
+
+<p>In order to sign in to this site, you must be a public member of one of the following Github organizations:</p>
+<ul>
+  <%= @authed_orgs.map{|org| "<li><a href=\"https://github.com/#{org}?tab=members\">#{org}</a></li>"}.join("\n") %>
+</ul>
+
+<p>If you are already a member, then that may not be public on your Github profile. You will need to visit the "members" tab (linked above) and click "publicize membership" next to your name.</p>
+
+</div>

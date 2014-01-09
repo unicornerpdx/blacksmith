@@ -101,7 +101,7 @@ class App < Sinatra::Base
     # Check if the user is a member of the required organization
     orgs = JSON.parse(@@hc.get("https://api.github.com/user/orgs", nil, {
       'Authorization' => "Bearer #{request.env['omniauth.auth']['credentials']['token']}",
-      'User-Agent' => 'IRC Log Viewer'
+      'User-Agent' => 'https://github.com/esripdx/blacksmith'
     }).body)
 
     authorized = false
@@ -120,8 +120,16 @@ class App < Sinatra::Base
       session[:redirect] = nil
       redirect "#{SiteConfig['base']}#{redirect}"
     else
-      erb "<h1>Not Authorized</h1>"
+      @user_orgs = (orgs ? org_ids : [])
+      @authed_orgs = SiteConfig['github']['orgs']
+      erb :forbidden
     end
+  end
+
+  get '/forbidden' do
+    @user_orgs = []
+    @authed_orgs = SiteConfig['github']['orgs']
+    erb :forbidden
   end
 
   post '/generate-ssh-config' do
