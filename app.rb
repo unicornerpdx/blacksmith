@@ -10,11 +10,8 @@ class App < Sinatra::Base
     @user = User.first :username => session[:username]
   end
 
-  configure do
-  end
-
   before do
-    puts "#{request.env['REQUEST_METHOD']} #{request.path} (#{session[:username]})"
+    # puts "#{request.env['REQUEST_METHOD']} #{request.path} (#{session[:username]})"
   end
 
   get '/' do
@@ -61,6 +58,16 @@ class App < Sinatra::Base
       erb :authorized_keys_list
     else
       erb :authorized_keys
+    end
+  end
+
+  get '/authorized-keys/:account.txt' do
+    @account = AwsAccount.first :name => params[:account]
+    content_type :text
+    if @account
+      erb :'authorized_keys_list.txt', :layout => false
+    else
+      erb 'not found', :layout => false
     end
   end
 
