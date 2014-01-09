@@ -10,7 +10,9 @@ class AwsJob
     ec2 = AWS.ec2
 
     ssh_config = "###############################################
-## AWS Account: #{job.aws_account.name}"
+## AWS Account: #{job.aws_account.name}
+
+"
     progress = 0
     i = 0
     
