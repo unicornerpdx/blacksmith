@@ -7,3 +7,14 @@
 <pre>
 <%= @account.pub_keys.map{ |key| "#{key.key_with_comment}"}.join("\n") %>
 </pre>
+
+<p>Run the following to set up a server to automatically download the new list of SSH keys on boot.</p>
+
+<pre>cd ~
+wget <%= SiteConfig['base'] %>/<%= @account.name %>/keys.sh
+chmod 755 keys.sh
+ 
+sudo sh -c 'echo "#!/bin/sh" > /etc/rc.local'
+sudo sh -c 'echo "/home/ubuntu/keys.sh" >> /etc/rc.local'
+sudo sh -c 'echo "exit 0" >> /etc/rc.local'
+</pre>

@@ -154,4 +154,10 @@ class App < Sinatra::Base
     redirect "/ssh-config?job=#{token}"
   end
 
+  get '/:account/keys.sh' do
+    @account = params[:account]
+    content_type :text
+    erb :'keys.sh', :layout => false
+  end
+
 end

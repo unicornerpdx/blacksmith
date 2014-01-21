@@ -70,6 +70,15 @@ $ ssh-add ~/.ssh/<span class="example-account">account</span>.aws.pem
 $ pbcopy &lt; ~/.ssh/<span class="example-account">account</span>.aws.pem.pub
 </pre></p>
 
+<p>If you have an existing private key you would like to use, you can generate the public
+  key for it using the ssh-keygen command:</p>
+
+<p><pre>
+# Generate the public key for an existing private key
+ssh-keygen -y -f mykey.pem
+</pre></p>
+
+
 <script>
 function updateExampleAccount(){
   var el = $(this).children(":selected");

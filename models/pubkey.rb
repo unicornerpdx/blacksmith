@@ -15,7 +15,11 @@ class PubKey
   end
 
   def key_with_comment
-    keydata = pubkey.match(/ssh-rsa [^ ]+/)[0]
-    "#{keydata} #{user.username}@#{aws_account.name}"
+    if match = pubkey.match(/ssh-rsa [^ ]+/)
+      keydata = match[0]
+      "#{keydata} #{user.username}@#{aws_account.name}"
+    else
+      pubkey
+    end
   end
 end

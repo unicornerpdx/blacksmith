@@ -1,0 +1,27 @@
+#!/bin/bash
+ 
+account=<%= @account %>
+ 
+tmpfile=/home/ubuntu/.ssh/authorized_keys.tmp
+keyfile=/home/ubuntu/.ssh/authorized_keys
+ 
+/usr/bin/curl -Ss https://blacksmith.pdx.esri.com/$account/authorized_keys > $tmpfile
+/bin/echo >> $tmpfile
+chown ubuntu: $tmpfile
+chmod 600 $tmpfile
+ 
+# test to make sure the file exists and has at least one line
+if [ $(wc -l $tmpfile | cut -f 1 -d ' ') -ge 1 ]
+then
+    # test to make sure it looks like there are things inside
+    if /bin/grep -Eq 'ssh-rsa' $tmpfile
+    then
+      # fetch the primary SSH key from the AWS API
+      /usr/bin/curl -Ss http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key >> $tmpfile
+      mv $tmpfile $keyfile
+    else
+      /bin/echo "File doesn't look like it has ssh-rsa keys"
+    fi
+else
+    /bin/echo "Error downloading the file"
+fi
