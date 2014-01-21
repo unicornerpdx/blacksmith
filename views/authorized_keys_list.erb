@@ -2,6 +2,8 @@
 
 <p>These are the SSH keys that have been submitted for this account. When creating new servers, you should include all of the below in the <code>.ssh/authorized_keys</code> file.</p>
 
+<p>You can also fetch the keys in plaintext from: <a href="/<%= @account.name %>/authorized_keys"><%= @account.name %>/authorized_keys</a></p>
+
 <pre>
 <%= @account.pub_keys.map{ |key| "#{key.key_with_comment}"}.join("\n") %>
 </pre>

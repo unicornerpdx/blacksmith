@@ -61,7 +61,7 @@ class App < Sinatra::Base
     end
   end
 
-  get '/authorized-keys/:account.txt' do
+  get '/:account/authorized_keys' do
     @account = AwsAccount.first :name => params[:account]
     content_type :text
     if @account
