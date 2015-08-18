@@ -26,7 +26,7 @@ class App < Sinatra::Base
     use Rack::Session::Cookie, :key => "session", :secret => "sdlfkj2308hwdg"
 
     use OmniAuth::Builder do
-      provider :github, SiteConfig['github']['client_id'], SiteConfig['github']['client_secret']
+      provider :github, SiteConfig['github']['client_id'], SiteConfig['github']['client_secret'], scope: "read:org"
     end
     OmniAuth.config.full_host = SiteConfig['base']
 
