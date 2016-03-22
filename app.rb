@@ -38,6 +38,31 @@ class App < Sinatra::Base
     end
   end
 
+  get '/users' do
+    require_login
+    @users = User.all
+    erb :users
+  end
+
+  post '/delete-user' do
+    require_login
+
+    user = User.get params[:id]
+
+    if user.nil?
+      flash[:notice] = 'User not found'
+    else 
+      if user.username == session[:username]
+        flash[:notice] = 'You cannot delete yourself'
+      else
+        PubKey.all(:user_id => user.id).destroy
+        user.destroy
+      end
+    end
+
+    redirect '/users'
+  end
+
   get '/job-status' do
     require_login
     if params[:job]

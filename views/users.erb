@@ -1,0 +1,24 @@
+<div class="row">
+
+<h2>Users</h2>
+
+<div class="col-sm-6">
+  <table class="table table-bordered">
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td>
+          <%= user.pub_keys.count %> key<%= user.pub_keys.count == 1 ? '' : 's' %>
+        </td>
+        <td>
+          <% if user.username != session[:username] %>
+          <form action="/delete-user" method="POST">
+            <input type="hidden" name="id" value="<%= user.id %>">
+            <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+          </form>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
